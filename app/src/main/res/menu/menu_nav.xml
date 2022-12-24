@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/givenFragment"
+        android:icon="@drawable/ic_baseline_given"
+        android:title="Given" />
+    <item
+        android:id="@+id/borrowedFragment"
+        android:icon="@drawable/ic_baseline_borrowed"
+        android:title="Borrowed" />
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_baseline_house_24"
+        android:title="Home" />
+    <item
+        android:id="@+id/groupsFragment"
+        android:icon="@drawable/ic_baseline_groups_24"
+        android:title="Groups" />
+    <item
+        android:id="@+id/updatesFragment"
+        android:icon="@drawable/ic_baseline_notifications_24"
+        android:title="Updates" />
+</menu>
