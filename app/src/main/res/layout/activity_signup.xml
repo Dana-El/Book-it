@@ -8,8 +8,8 @@
     >
 
     <LinearLayout
-        android:layout_width="328dp"
-        android:layout_height="436dp"
+        android:layout_width="361dp"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,18 +25,28 @@
             android:src="@drawable/ic_launcher_foreground" />
 
         <EditText
+            android:id="@+id/ETname_signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:drawableStart="@drawable/person_foreground"
+            android:hint="Name"
+            android:inputType="text"
+            android:padding="10dp" />
+
+        <EditText
             android:id="@+id/ETemail_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:inputType="text"
             android:drawableStart="@drawable/person_foreground"
             android:hint="Email"
+            android:inputType="text"
             android:padding="10dp" />
 
         <EditText
-            android:inputType="text"
             android:id="@+id/ETpassword_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,9 +55,10 @@
             android:layout_marginEnd="20dp"
             android:drawableStart="@drawable/lock_foreground"
             android:hint="Password"
-            android:padding="10dp" />
-        <EditText
             android:inputType="text"
+            android:padding="10dp" />
+
+        <EditText
             android:id="@+id/ETconfirmpassword_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,6 +67,7 @@
             android:layout_marginEnd="20dp"
             android:drawableStart="@drawable/lock_foreground"
             android:hint="Confirm Password"
+            android:inputType="text"
             android:padding="10dp" />
 
 

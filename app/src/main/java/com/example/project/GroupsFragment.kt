@@ -1,59 +1,97 @@
 package com.example.project
 
+import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
+import android.util.TypedValue
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.*
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat.getSystemService
+import com.google.firebase.FirebaseError
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import org.json.JSONObject
+import kotlin.reflect.typeOf
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [GroupsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class GroupsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class GroupsFragment : Fragment(R.layout.fragment_groups) {
+    private lateinit var firebaseAuth:FirebaseAuth
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val layout = view?.findViewById<GridLayout>(R.id.fragment_groupslayout)
+        val vv:View = getLayoutInflater().inflate(R.layout.groupcard,null)
+        val vvv:View = getLayoutInflater().inflate(R.layout.groupcard,null)
+        val vvvv:View = getLayoutInflater().inflate(R.layout.groupcard,null)
 
+        val newgroup:View = getLayoutInflater().inflate(R.layout.new_groupcard,null)
+        //val vv: View? = view?.findViewById(R.id.groupcard)
+        val rootRef = FirebaseDatabase.getInstance().reference
+        rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val children = snapshot!!.children
+                val create = snapshot.child("Groups")
+                var groupRef = FirebaseDatabase.getInstance().getReference("Groups")
+
+                val data2 :String?= "creator"
+                firebaseAuth = FirebaseAuth.getInstance()
+
+                groupRef.addListenerForSingleValueEvent(object : ValueEventListener {
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val children = snapshot!!.children
+                        children.forEach {
+
+                            val test = it.child("creator").value
+                            if(test==firebaseAuth.currentUser!!.uid){
+                                //add to view
+                                val vv:View = getLayoutInflater().inflate(R.layout.groupcard,null)
+                                val groupname :TextView= vv.findViewById(R.id.groupcard_et)
+                                groupname.setText( it.child("group").value.toString() )
+                                layout?.addView(vv)
+                            }
+
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        println(error!!.message)
+                    }
+                })
+
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                println("test" + error!!.message)
+            }
+        })
+        //add all groups and new group card
+        //layout?.addView(vv)
+        //layout?.addView(vvv)
+        //layout?.addView(vvvv)
+        layout?.addView(newgroup)
+
+        newgroup.setOnClickListener(){
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                val f :View? = view?.findViewById(R.id.mainConatiner)
+
+                replace(R.id.mainConatiner,NewGroupFragment())
+                commit()
+            }
+        }
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_groups, container, false)
-    }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GroupsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            GroupsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }
