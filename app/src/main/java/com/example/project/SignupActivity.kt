@@ -29,6 +29,11 @@ class SignupActivity:AppCompatActivity(){
         val password:EditText = findViewById(R.id.ETpassword_signup)
         val con_password :EditText = findViewById(R.id.ETconfirmpassword_signup)
         val signup :TextView = findViewById(R.id.TVsignup_signup)
+        val cancel : TextView = findViewById(R.id.cancel_signup)
+        cancel.setOnClickListener(){
+            val intent = Intent(this,LoginActivity::class.java)
+            startActivity(intent)
+        }
         name.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 val view = this.currentFocus

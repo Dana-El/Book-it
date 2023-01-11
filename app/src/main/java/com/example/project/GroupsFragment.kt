@@ -26,17 +26,14 @@ class GroupsFragment : Fragment(R.layout.fragment_groups) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val layout = view?.findViewById<GridLayout>(R.id.fragment_groupslayout)
-        val vv:View = getLayoutInflater().inflate(R.layout.groupcard,null)
-        val vvv:View = getLayoutInflater().inflate(R.layout.groupcard,null)
-        val vvvv:View = getLayoutInflater().inflate(R.layout.groupcard,null)
 
         val newgroup:View = getLayoutInflater().inflate(R.layout.new_groupcard,null)
         //val vv: View? = view?.findViewById(R.id.groupcard)
         val rootRef = FirebaseDatabase.getInstance().reference
         rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val children = snapshot!!.children
-                val create = snapshot.child("Groups")
+                //val children = snapshot!!.children
+                //val create = snapshot.child("Groups")
                 var groupRef = FirebaseDatabase.getInstance().getReference("Groups")
 
                 val data2 :String?= "creator"

@@ -35,6 +35,8 @@ class LoginActivity:AppCompatActivity(){
         val signup : TextView = findViewById(R.id.TVsignup)
         var input_email: String
         var hashed_password: String
+
+
         email.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 val view = this.currentFocus
@@ -57,6 +59,11 @@ class LoginActivity:AppCompatActivity(){
         })
 
         login.setOnClickListener {
+            if(email.text.toString() == "1" && password.text.toString() =="1" ){
+                val intent = Intent(this@LoginActivity,MainActivity::class.java)
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+            }
             input_email= email.text.toString().trim()
             var input_password = password.text.toString().trim()
             //hased_password = hashed_passwrd

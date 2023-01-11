@@ -53,7 +53,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="20dp"
-            android:drawableStart="@drawable/lock_foreground"
+            android:drawableStart="@drawable/lock"
             android:hint="Password"
             android:inputType="text"
             android:padding="10dp" />
@@ -65,7 +65,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="20dp"
-            android:drawableStart="@drawable/lock_foreground"
+            android:drawableStart="@drawable/lock"
             android:hint="Confirm Password"
             android:inputType="text"
             android:padding="10dp" />
@@ -79,6 +79,15 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/textview_background"
             android:text="Sign Up"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/cancel_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/textview_background"
+            android:text="Cancel"
             android:textColor="@color/black" />
 
     </LinearLayout>
