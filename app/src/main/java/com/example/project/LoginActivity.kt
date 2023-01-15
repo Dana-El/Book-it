@@ -82,6 +82,9 @@ class LoginActivity:AppCompatActivity(){
             startActivity(intent)
 
         }
+        for_password.setOnClickListener(){
+
+        }
 
 
 

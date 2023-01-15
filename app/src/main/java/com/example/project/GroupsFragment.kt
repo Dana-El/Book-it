@@ -3,6 +3,7 @@ package com.example.project
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.text.TextUtils.replace
 import android.util.TypedValue
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,12 +24,22 @@ import kotlin.reflect.typeOf
 
 class GroupsFragment : Fragment(R.layout.fragment_groups) {
     private lateinit var firebaseAuth:FirebaseAuth
+    private lateinit var newname:String
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val layout = view?.findViewById<GridLayout>(R.id.fragment_groupslayout)
+        val dataRef=FirebaseDatabase.getInstance().reference.child("data")
 
         val newgroup:View = getLayoutInflater().inflate(R.layout.new_groupcard,null)
+        var remove_group = view.findViewById<TextView>(R.id.groupcard_remove)
+
+        newname=""
+        var change_name = view.findViewById<TextView>(R.id.groupcard_updatename)
         //val vv: View? = view?.findViewById(R.id.groupcard)
+        var image = view?.findViewById<ImageView>(R.id.group_image)
+
+        //when u click on image it opens group page
+        //intent.putExtra("message", message);
         val rootRef = FirebaseDatabase.getInstance().reference
         rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -43,15 +54,46 @@ class GroupsFragment : Fragment(R.layout.fragment_groups) {
 
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val children = snapshot!!.children
-                        children.forEach {
+                        children.forEach { it ->
 
                             val test = it.child("creator").value
                             if(test==firebaseAuth.currentUser!!.uid){
                                 //add to view
                                 val vv:View = getLayoutInflater().inflate(R.layout.groupcard,null)
                                 val groupname :TextView= vv.findViewById(R.id.groupcard_et)
+                                val name = it
                                 groupname.setText( it.child("group").value.toString() )
                                 layout?.addView(vv)
+                                remove_group = vv.findViewById(R.id.groupcard_remove)
+                                remove_group.setOnClickListener() {
+                                    layout?.removeView(vv)
+                                    name.ref.removeValue()
+
+                                }
+                                image = vv.findViewById(R.id.group_image)
+                                image?.setOnClickListener{
+                                    val bundle = Bundle()
+                                    bundle.putString("message", groupname.text.toString()) // Put anything what you want
+
+                                    val fragment2 = GroupPageFragment()
+                                    fragment2.setArguments(bundle)
+                                    val f :View? = view?.findViewById(R.id.mainConatiner)
+                                    activity?.supportFragmentManager?.beginTransaction()?.apply {
+                                        replace(R.id.mainConatiner, fragment2)
+                                        commit()
+                                    }
+
+                                }
+                                change_name = vv.findViewById(R.id.groupcard_updatename)
+                                change_name.setOnClickListener {
+                                    activity?.supportFragmentManager?.beginTransaction()?.apply {
+                                        replace(R.id.mainConatiner,ChangeNameFragment())
+                                        commit()
+                                    }
+
+                                }
+
+
                             }
 
                         }
@@ -69,6 +111,7 @@ class GroupsFragment : Fragment(R.layout.fragment_groups) {
                 println("test" + error!!.message)
             }
         })
+
         //add all groups and new group card
         //layout?.addView(vv)
         //layout?.addView(vvv)
@@ -88,6 +131,10 @@ class GroupsFragment : Fragment(R.layout.fragment_groups) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+    }
+    public fun recieveFeedback(feedback:String){
+        newname=feedback
+        println(newname+"     ")
     }
 
 

@@ -1,7 +1,9 @@
 package com.example.project
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import androidx.fragment.app.Fragment
@@ -19,18 +21,28 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
-    private lateinit var firebaseAuth:FirebaseAuth
+    public lateinit var firebaseAuth:FirebaseAuth
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val layout = view?.findViewById<GridLayout>(R.id.groupslayout)
-        val vv:View = getLayoutInflater().inflate(R.layout.groupcard,null)
-        val vvv:View = getLayoutInflater().inflate(R.layout.groupcard,null)
-        val vvvv:View = getLayoutInflater().inflate(R.layout.groupcard,null)
-
         val newgroup:View = getLayoutInflater().inflate(R.layout.new_groupcard,null)
+        var remove_group = view.findViewById<TextView>(R.id.groupcard_remove)
+
+        var change_name = view.findViewById<TextView>(R.id.groupcard_updatename)
+        //val vv: View? = view?.findViewById(R.id.groupcard)
+        var image = view?.findViewById<ImageView>(R.id.group_image)
+
+        val complaint= view?.findViewById<Button>(R.id.complaint)
+        if (complaint != null) {
+            complaint.setOnClickListener {
+                val emailIntent = Intent(Intent.ACTION_SENDTO,Uri.fromParts("mailto","bookitapp22@gmail.com",null))
+                startActivity(Intent.createChooser(emailIntent,"Complaint"))
+                Toast.makeText(requireActivity(), "complaint",Toast.LENGTH_SHORT).show()
+            }
+
+        }
         //val vv: View? = view?.findViewById(R.id.groupcard)
         //add first three groups
-
         val rootRef = FirebaseDatabase.getInstance().reference
         rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -46,19 +58,42 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val children = snapshot!!.children
                         var count =0
+                        firebaseAuth = FirebaseAuth.getInstance()
                         children.forEach {
-                            if(count<4) {
+
                                 count++
                                 val test = it.child("creator").value
-                                if (test == firebaseAuth.currentUser!!.uid) {
+                                if (test == firebaseAuth!!.currentUser!!.uid) {
                                     //add to view
+                                    val name = it
                                     val vv: View =
                                         getLayoutInflater().inflate(R.layout.groupcard, null)
                                     val groupname: TextView = vv.findViewById(R.id.groupcard_et)
                                     groupname.setText(it.child("group").value.toString())
                                     layout?.addView(vv)
+                                    remove_group = vv.findViewById(R.id.groupcard_remove)
+                                    remove_group.setOnClickListener() {
+                                        layout?.removeView(vv)
+                                        name.ref.removeValue()
+
+                                    }
+                                    image = vv.findViewById(R.id.group_image)
+                                    image?.setOnClickListener{
+                                        val bundle = Bundle()
+                                        bundle.putString("message", groupname.text.toString()) // Put anything what you want
+
+                                        val fragment2 = GroupPageFragment()
+                                        fragment2.setArguments(bundle)
+                                        val f :View? = view?.findViewById(R.id.mainConatiner)
+                                        activity?.supportFragmentManager?.beginTransaction()?.apply {
+                                            replace(R.id.mainConatiner, fragment2)
+                                            commit()
+                                        }
+
+                                    }
                                 }
-                            }
+
+
 
                         }
                     }
