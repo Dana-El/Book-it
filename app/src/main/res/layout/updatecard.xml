@@ -15,20 +15,38 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="    Person "
+                android:text="    "
+                android:textSize="18sp"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/update_bookname"
+                android:layout_height="wrap_content"
+                android:text="book"
                 android:textSize="18sp"
                 android:layout_gravity="center"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="added this book to "
+                android:text=" was added "
                 android:textSize="18sp"
                 android:layout_gravity="center"
                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" to "
+                android:textSize="18sp"
+                android:layout_gravity="center"
+                />
+
             <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+                android:id="@+id/update_groupname"
             android:text="Group"
             android:textSize="18sp"
             android:layout_gravity="center"

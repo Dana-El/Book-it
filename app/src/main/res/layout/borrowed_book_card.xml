@@ -31,8 +31,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/borrowed_name"
                         android:text="Book"/>
                     <TextView
+                        android:id="@+id/borrowed_author"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" By : Author"/>
@@ -48,7 +50,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
+                        android:id="@+id/borrowed_person"
                         android:text="Person  ->  "/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="  ->  "/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

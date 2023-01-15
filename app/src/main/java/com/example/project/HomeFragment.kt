@@ -43,7 +43,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
         //val vv: View? = view?.findViewById(R.id.groupcard)
         //add first three groups
-        val rootRef = FirebaseDatabase.getInstance().reference
+        var rootRef = FirebaseDatabase.getInstance().reference
         rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val children = snapshot!!.children
@@ -60,38 +60,38 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         var count =0
                         firebaseAuth = FirebaseAuth.getInstance()
                         children.forEach {
+                            firebaseAuth = FirebaseAuth.getInstance()
+                            count++
+                            val test = it.child("creator").value
+                            if (FirebaseAuth.getInstance().currentUser != null && test == FirebaseAuth.getInstance().currentUser!!.uid) {
+                                //add to view
+                                val name = it
+                                val vv: View =
+                                    getLayoutInflater().inflate(R.layout.groupcard, null)
+                                val groupname: TextView = vv.findViewById(R.id.groupcard_et)
+                                groupname.setText(it.child("group").value.toString())
+                                layout?.addView(vv)
+                                remove_group = vv.findViewById(R.id.groupcard_remove)
+                                remove_group.setOnClickListener() {
+                                    layout?.removeView(vv)
+                                    name.ref.removeValue()
 
-                                count++
-                                val test = it.child("creator").value
-                                if (test == firebaseAuth!!.currentUser!!.uid) {
-                                    //add to view
-                                    val name = it
-                                    val vv: View =
-                                        getLayoutInflater().inflate(R.layout.groupcard, null)
-                                    val groupname: TextView = vv.findViewById(R.id.groupcard_et)
-                                    groupname.setText(it.child("group").value.toString())
-                                    layout?.addView(vv)
-                                    remove_group = vv.findViewById(R.id.groupcard_remove)
-                                    remove_group.setOnClickListener() {
-                                        layout?.removeView(vv)
-                                        name.ref.removeValue()
-
-                                    }
-                                    image = vv.findViewById(R.id.group_image)
-                                    image?.setOnClickListener{
-                                        val bundle = Bundle()
-                                        bundle.putString("message", groupname.text.toString()) // Put anything what you want
-
-                                        val fragment2 = GroupPageFragment()
-                                        fragment2.setArguments(bundle)
-                                        val f :View? = view?.findViewById(R.id.mainConatiner)
-                                        activity?.supportFragmentManager?.beginTransaction()?.apply {
-                                            replace(R.id.mainConatiner, fragment2)
-                                            commit()
-                                        }
-
-                                    }
                                 }
+                                image = vv.findViewById(R.id.group_image)
+                                image?.setOnClickListener{
+                                    val bundle = Bundle()
+                                    bundle.putString("message", groupname.text.toString()) // Put anything what you want
+
+                                    val fragment2 = GroupPageFragment()
+                                    fragment2.setArguments(bundle)
+                                    val f :View? = view?.findViewById(R.id.mainConatiner)
+                                    activity?.supportFragmentManager?.beginTransaction()?.apply {
+                                        replace(R.id.mainConatiner, fragment2)
+                                        commit()
+                                    }
+
+                                }
+                            }
 
 
 
@@ -124,9 +124,51 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val test:View = getLayoutInflater().inflate(R.layout.updatecard,null)
         val test2:View = getLayoutInflater().inflate(R.layout.updatecard,null)
         val test3:View = getLayoutInflater().inflate(R.layout.updatecard,null)
-        layout2?.addView(test)
-        layout2?.addView(test2)
-        layout2?.addView(test3)
+
+
+        rootRef = FirebaseDatabase.getInstance().reference
+        rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                //val children = snapshot!!.children
+                //val create = snapshot.child("Groups")
+                var bookRef = FirebaseDatabase.getInstance().getReference("Books")
+
+                firebaseAuth = FirebaseAuth.getInstance()
+
+                bookRef.addListenerForSingleValueEvent(object : ValueEventListener {
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val children = snapshot!!.children
+                        children.forEach { it ->
+
+                            val vv:View = getLayoutInflater().inflate(R.layout.updatecard,null)
+                            val bookname :TextView= vv.findViewById(R.id.update_bookname)
+                            val groupname :TextView= vv.findViewById(R.id.update_groupname)
+
+                            val name = it
+
+                            bookname.setText( it.child("bookname").value.toString() )
+                            groupname.setText( it.child("group").value.toString() )
+                            layout2?.addView(vv)
+
+
+                        }
+
+                    }
+
+
+                    override fun onCancelled(error: DatabaseError) {
+                        println(error!!.message)
+                    }
+                })
+
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                println("test" + error!!.message)
+            }
+        })
         //println(layout)
 
     }

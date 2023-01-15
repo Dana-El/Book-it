@@ -3,23 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:padding="10dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
 
                 android:src="@drawable/ic_baseline_book_24">
 
             </ImageView>
             <LinearLayout
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -27,44 +29,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:paddingTop="5dp">
                     <TextView
+                        android:id="@+id/tv_bookname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Book"
-                        android:id="@+id/given_bookname"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/given_authorname"
-                        android:text=" By : Author"/>
+                        android:text="Book"/>
 
                 </LinearLayout>
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_authorname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:text="You "/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:text="  ->  "/>
-
-                    <TextView
+                    android:text=" By : Author" />
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:id="@+id/given_person"
-                    android:text="Person  ->  "/>
-                </LinearLayout>
+                    android:id="@+id/book_borrow"
+                    android:text="Borrow"
+                    android:textColor="@color/secondary"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:background="@color/white"
+                    android:shadowColor="@color/white"
+                    />
+
+
 
 
 
